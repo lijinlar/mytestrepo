@@ -1,0 +1,43 @@
+#notification_cmp{
+	background: url(../img/cmp.png) no-repeat;
+	background-size: 50 50;
+	width: 50px;
+	height: 50px;
+	text-align: right;
+}
+
+#notification_enq{
+	background: url(../img/enq.png) no-repeat;
+	background-size: 50 50;
+	width: 50px;
+	height: 50px;
+	text-align: right;
+}
+#notification_req{
+	background: url(../img/req.png) no-repeat;
+	background-size: 50 50;
+	width: 50px;
+	height: 50px;
+	text-align: right;
+}
+sup{
+	background: green;
+	color: white;
+	border-radius: 5px;
+	width:20px; 
+}
+
+.title .sub{
+	display: none;
+	z-index:1500;position:absolute;background:white;
+}
+
+.title:hover .sub{
+	display: block;
+}
+.userIcon{
+	background: url(../img/user.png) no-repeat;
+	background-size: 40px 40px;
+	width: 40px;
+	height: 40px;
+}

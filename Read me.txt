@@ -1,0 +1,20 @@
+﻿                                                                   •?((¯°·._.•Node.JS•._.·°¯))؟•
+
+1) Install node.js (get it from www.nodejs.org)
+2) Create a folder anywhere in your system for this project
+3) Open visual c++ 2010 command line
+      a)change directory to your project folder created in step 2 (using cd command)
+      b) then type 'npm install socket.io' and wait for the installation to complete. (don't close this window)
+            by this we are installing javascript socket connection plugin for establishing socket connection
+4) Copy the node-server/notification/server.js file into your project folder
+5) Copy the web folder contents into your web server root
+     a) change the ip address I have mentioned in js/myScript.js (line 5) to your server ip
+6) Then you are ready to start now...
+      
+      Go back to command line and type 'node server.js' to start the server that we have created in  server.js
+
+then open the home.html file in your web root folder and enjoy
+
+NB: The port can also be changed , but the thing you have to make sure is change it in both client side and server side.
+
+For any help contact : lijin@baabte.com
