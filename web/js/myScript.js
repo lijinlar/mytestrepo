@@ -14,8 +14,8 @@ $(document).ready(function(){
 			    	$('#chatwindow').html('');
 			    	$('#roomname').html($(this).html());
 			    	socketio.on('chat'+item.id,function(chatData){
-			    		if(myId!=chatData.userId)
-			    			{notifyMe(chatData);}
+			    		//if(myId!=chatData.userId)
+			    			notifyMe(chatData);
 			    		var chatThread='<span class="chat-name">'+chatData.from+'</span>:<span class="text-muted">'+chatData.msg+'</span><br>';
 			    		$('#chatwindow').append(chatThread);
 			    	});
@@ -83,6 +83,8 @@ $("#sendmsg").click(function(e){
 		if($(this).hasClass('btn-success')){
 			socketio.emit("chat",{msg:$('#newmsg').val(),roomId:roomId});
 			$('#newmsg').val('');
+			$('#sendmsg').removeClass('btn-success');
+			$('#sendmsg').addClass('btn-default');
 		}
 		
 	});
