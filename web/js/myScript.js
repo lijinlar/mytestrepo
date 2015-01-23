@@ -46,7 +46,7 @@ $(document).ready(function(){
 	});
 	socketio.on("msg"+myId,function(msgData){
 		if(msgData.type="roomCreate"){
-			roomId=data.id;
+			roomId=msgData.id;
 		}
 	});
 
