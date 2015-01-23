@@ -14,6 +14,7 @@ $(document).ready(function(){
 			    	$('#chatwindow').html('');
 			    	$('#roomname').html($(this).html());
 			    	socketio.on('chat'+item.id,function(chatData){
+			    		notifyMe(chatData);
 			    		var chatThread='<span class="chat-name">'+chatData.from+'</span>:<span class="text-muted">'+chatData.msg+'</span><br>';
 			    		$('#chatwindow').append(chatThread);
 			    	});
@@ -113,6 +114,28 @@ $("#sendmsg").click(function(e){
 				}
 			});
 
+
+
+
+
+function notifyMe(chatData) {
+  if (!Notification) {
+    return;
+  }
+
+  if (Notification.permission !== "granted")
+    Notification.requestPermission();
+
+  var notification = new Notification('Message from '+chatData.from, {
+    icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+    body: chatData.msg,
+  });
+
+
+  notification.onclick = function () {
+    window.open("http://baatra.com");
+  }
+}
 
 
 });
