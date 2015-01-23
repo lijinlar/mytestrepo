@@ -13,6 +13,11 @@ $(document).ready(function(){
 	  window.location.hash='';		
 	}
 
+    socketio.on('forcelogout'+socketio.id,function(data){
+       myId='';
+  		localStorage.clear();
+  		window.location.hash='join';
+    });
 	socketio.on("welcome"+socketio.id,function(myData){
 		myId=myData.userId;
 		localStorage.userId=myId;
