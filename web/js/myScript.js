@@ -12,7 +12,7 @@ $(document).ready(function(){
 			    	roomId=$(this).attr('id');
 			    	$('#roomname').html($(this).html());
 			    	socketio.on('chat'+item.id,function(chatData){
-			    		var chatThread='<span class="chat-name">'+chatData.from+'</span>:<span class="text-muted">'+chatData.msg+'</span>';
+			    		var chatThread='<span class="chat-name">'+chatData.from+'</span>:<span class="text-muted">'+chatData.msg+'</span><br>';
 			    		$('#chatwindow').append(chatThread);
 			    	});
 			    	window.location.hash='chatRoom';
