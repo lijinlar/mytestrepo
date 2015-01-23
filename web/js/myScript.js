@@ -129,6 +129,9 @@ $("#sendmsg").click(function(e){
 
 	$('#newmsg').keyup(function(e){
 		if($(this).val().length>1){
+			
+			$('#sendmsg').removeClass('btn-default');
+			$('#sendmsg').addClass('btn-success');
 			if(e.keyCode){
 				if(e.keyCode==13)
 					$("#sendmsg").click();
@@ -137,8 +140,6 @@ $("#sendmsg").click(function(e){
 				if(e.key=='Enter')
 					$("#sendmsg").click();
 			}
-			$('#sendmsg').removeClass('btn-default');
-			$('#sendmsg').addClass('btn-success');
 		}
 		else{
 			$('#sendmsg').removeClass('btn-success');
