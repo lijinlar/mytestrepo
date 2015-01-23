@@ -11,17 +11,31 @@ $(document).ready(function(){
         myId='';
   		localStorage.clear();
   		window.location.hash='join';
+  		
     });
+		socketio.on("msg"+myId,function(msgData){
+		if(msgData.type="roomCreate"){
+			roomId=msgData.id;
+		}
+	});
 	}
 	else{
 		$('#logout').hide();
 	  window.location.hash='';		
 	}
 
-    
-	socketio.on("welcome"+socketio.id,function(myData){
-		myId=myData.userId;
-		localStorage.userId=myId;
+	socketio.on("welcome",function(myData){
+      if(socketio.id==myData.id)
+		{
+			myId=myData.userId;
+			localStorage.userId=myId;
+		
+		socketio.on("msg"+myId,function(msgData){
+		if(msgData.type="roomCreate"){
+			roomId=msgData.id;
+		}
+		});
+		}
 	});
 	socketio.on("chatroom",function(data){
 		$('#chatroomlist').html('');
@@ -44,11 +58,7 @@ $(document).ready(function(){
 			    $('#chatroomlist').append(elem);
 		});
 	});
-	socketio.on("msg"+myId,function(msgData){
-		if(msgData.type="roomCreate"){
-			roomId=msgData.id;
-		}
-	});
+	
 
 
 // join chat app
