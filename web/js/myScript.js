@@ -1,5 +1,13 @@
 $(document).ready(function(){
 
+var window_focus;
+
+$(window).focus(function() {
+    window_focus = true;
+}).blur(function() {
+    window_focus = false;
+});
+
 	var socketio = io.connect("mb-test.in:1555"); // connecting to node server using socket.io, and here we go live with the server broadcasts
 	var myId='';
 	var roomId='';
@@ -48,7 +56,7 @@ $(document).ready(function(){
 			    	$('#chatwindow').html('');
 			    	$('#roomname').html($(this).html());
 			    	socketio.on('chat'+item.id,function(chatData){
-			    		if(myId!=chatData.userId)
+			    		if(myId!=chatData.userId&&!window_focus)
 			    			notifyMe(chatData);
 			    		var chatThread='<span class="chat-name">'+chatData.from+'</span>:<span class="text-muted">'+chatData.msg+'</span><br>';
 			    		$('#chatwindow').append(chatThread);
