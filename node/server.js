@@ -46,7 +46,7 @@ var io = require('socket.io').listen(app); // creating a socket server
                 io.sockets.emit("chat"+data.roomId,{msg:data.msg,from:users[data.userId].name,userId:data.userId});
             }
             catch(exc){
-                io.sockets.emit('forcelogout'+socket.id,{});
+                io.sockets.emit('forcelogout'+data.userId,{});
 
             }
         });

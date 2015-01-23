@@ -7,17 +7,18 @@ $(document).ready(function(){
 		myId=localStorage.userId;
 		socketio.emit('getrooms',{});
 		window.location.hash='chatRooms';
+		socketio.on('forcelogout'+myId,function(data){
+        myId='';
+  		localStorage.clear();
+  		window.location.hash='join';
+    });
 	}
 	else{
 		$('#logout').hide();
 	  window.location.hash='';		
 	}
 
-    socketio.on('forcelogout'+socketio.id,function(data){
-       myId='';
-  		localStorage.clear();
-  		window.location.hash='join';
-    });
+    
 	socketio.on("welcome"+socketio.id,function(myData){
 		myId=myData.userId;
 		localStorage.userId=myId;
