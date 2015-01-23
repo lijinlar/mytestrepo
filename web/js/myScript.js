@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	window.location.hash='';
 	var socketio = io.connect("mb-test.in:1555"); // connecting to node server using socket.io, and here we go live with the server broadcasts
 	var myId=socketio.id;
 	var roomId='';
