@@ -86,7 +86,7 @@ $("#sendmsg").click(function(e){
 	});
 
 	$('#newmsg').keyup(function(e){
-		if($(this).val().length>3){
+		if($(this).val().strip().length>1){
 			$('#sendmsg').removeClass('btn-default');
 			$('#sendmsg').addClass('btn-success');
 		}
