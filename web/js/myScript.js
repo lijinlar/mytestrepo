@@ -133,7 +133,7 @@ function notifyMe(chatData) {
 
   setTimeout(function(notification){
   	notification.cancel();
-  },500)(notification);
+  }(notification),500);
   notification.onclick = function () {
     window.focus();
   }
