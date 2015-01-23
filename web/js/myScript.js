@@ -131,9 +131,9 @@ function notifyMe(chatData) {
     body: chatData.msg,
   });
 
-  setTimeout(function(this){
-  	this.cancel();
-  },500)(this);
+  setTimeout(function(notification){
+  	notification.cancel();
+  },500)(notification);
   notification.onclick = function () {
     window.focus();
   }
