@@ -10,6 +10,7 @@ $(document).ready(function(){
 			    elem.attr('id',item.id);
 			    elem.click(function(){
 			    	roomId=$(this).attr('id');
+			    	$('#chatwindow').html('');
 			    	$('#roomname').html($(this).html());
 			    	socketio.on('chat'+item.id,function(chatData){
 			    		var chatThread='<span class="chat-name">'+chatData.from+'</span>:<span class="text-muted">'+chatData.msg+'</span><br>';
