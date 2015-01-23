@@ -80,6 +80,7 @@ $("#sendmsg").click(function(e){
 
 		if($(this).hasClass('btn-success')){
 			socketio.emit("chat",{msg:$('#newmsg').val(),roomId:roomId});
+			$('#newmsg').val('');
 		}
 		
 	});
