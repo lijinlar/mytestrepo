@@ -48,7 +48,7 @@ $(window).focus(function() {
 	socketio.on("chatroom",function(data){
 		$('#chatroomlist').html('');
 		data.rooms.forEach(function(item){
-			var elem=$('<div class="btn btn-warning">');
+			var elem=$('<div class="btn btn-warning" style="float:left;margin:5px;">');
 			    elem.html(item.name);
 			    elem.attr('id',item.id);
 			    elem.click(function(){

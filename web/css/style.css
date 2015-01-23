@@ -10,3 +10,7 @@
 .chat-name{
 	font-weight: bold;
 }
+
+#chatroomlist{
+	padding: 5px;
+}
