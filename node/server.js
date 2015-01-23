@@ -33,7 +33,7 @@ var io = require('socket.io').listen(app); // creating a socket server
 
 
         socket.on('chat',function(data){
-            io.sockets.emit("chat"+data.roomId,{msg:data.msg,from:users[socket.id].name});
+            io.sockets.emit("chat"+data.roomId,{msg:data.msg,from:users[socket.id].name,userId:socket.id});
         });
 
     });
