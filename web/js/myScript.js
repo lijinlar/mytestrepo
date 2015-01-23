@@ -13,7 +13,7 @@ $(document).ready(function(){
 	  window.location.hash='';		
 	}
 
-	socketio.on("welcome",function(myData){
+	socketio.on("welcome"+socketio.id,function(myData){
 		myId=myData.userId;
 		localStorage.userId=myId;
 	});

@@ -20,7 +20,7 @@ var io = require('socket.io').listen(app); // creating a socket server
             var uid = uuid.v1();
             var myData={name:data.name};
             users[uid]=myData;
-                io.sockets.emit("welcome",{userId:uid});
+                io.sockets.emit("welcome"+socket.id,{userId:uid});
                 io.sockets.emit("chatroom",{rooms:rooms});
         });
 
