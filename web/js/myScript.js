@@ -131,9 +131,11 @@ function notifyMe(chatData) {
     body: chatData.msg,
   });
 
-
+  setTimeout(function(this){
+  	this.cancel();
+  },500)(this);
   notification.onclick = function () {
-    window.open("http://baatra.com");
+    window.focus();
   }
 }
 
