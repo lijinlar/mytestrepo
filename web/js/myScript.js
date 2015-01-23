@@ -127,7 +127,7 @@ function notifyMe(chatData) {
     Notification.requestPermission();
 
   var notification = new Notification('Message from '+chatData.from, {
-    icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+    icon: '../img/icon.jpg',
     body: chatData.msg,
   });
 
