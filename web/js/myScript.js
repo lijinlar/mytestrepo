@@ -1,8 +1,22 @@
 $(document).ready(function(){
-	window.location.hash='';
+
 	var socketio = io.connect("mb-test.in:1555"); // connecting to node server using socket.io, and here we go live with the server broadcasts
-	var myId=socketio.id;
+	var myId='';
 	var roomId='';
+	if(localStorage.userId){
+		myId=localStorage.userId;
+		socketio.emit('getrooms',{});
+		window.location.hash='chatRooms';
+	}
+	else{
+		$('#logout').hide();
+	  window.location.hash='';		
+	}
+
+	socketio.on("welcome",function(myData){
+		myId=myData.userId;
+		localStorage.userId=myId;
+	});
 	socketio.on("chatroom",function(data){
 		$('#chatroomlist').html('');
 		data.rooms.forEach(function(item){
@@ -14,7 +28,7 @@ $(document).ready(function(){
 			    	$('#chatwindow').html('');
 			    	$('#roomname').html($(this).html());
 			    	socketio.on('chat'+item.id,function(chatData){
-			    		//if(myId!=chatData.userId)
+			    		if(myId!=chatData.userId)
 			    			notifyMe(chatData);
 			    		var chatThread='<span class="chat-name">'+chatData.from+'</span>:<span class="text-muted">'+chatData.msg+'</span><br>';
 			    		$('#chatwindow').append(chatThread);
@@ -59,7 +73,7 @@ $("#createRoom").click(function(e){
 		e.preventDefault();
 
 		if($(this).hasClass('btn-success')){
-			socketio.emit("createRoom",{name:$('#newRoomname').val()});
+			socketio.emit("createRoom",{name:$('#newRoomname').val(),userId:myId});
 		}
 		
 	});
@@ -81,7 +95,7 @@ $("#sendmsg").click(function(e){
 		e.preventDefault();
 
 		if($(this).hasClass('btn-success')){
-			socketio.emit("chat",{msg:$('#newmsg').val(),roomId:roomId});
+			socketio.emit("chat",{msg:$('#newmsg').val(),roomId:roomId,userId:myId});
 			$('#newmsg').val('');
 			$('#sendmsg').removeClass('btn-success');
 			$('#sendmsg').addClass('btn-default');
@@ -119,6 +133,13 @@ $("#sendmsg").click(function(e){
 
 
 
+$('#logout').click(function(){
+  socketio.emit('logout',{userId:myId});
+  myId='';
+  localStorage.clear();
+  window.location.hash='join';
+});
+
 
 
 function notifyMe(chatData) {
@@ -138,6 +159,8 @@ function notifyMe(chatData) {
     window.focus();
   }
 }
+
+
 
 
 });
