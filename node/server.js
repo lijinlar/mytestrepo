@@ -28,6 +28,16 @@ var io = require('socket.io').listen(app); // creating a socket server
             delete users[data.userId];
         });
 
+        socket.on('deleteRoom',function(data){
+            var rmId=data.roomId;
+            rooms.forEach(function(item){
+                if(rmId==item.id){
+                    rooms.splice(rooms.indexOf(item),1);
+                    io.sockets.emit("chatroom",{rooms:rooms});
+                }
+            });
+        });
+
         socket.on('getrooms',function(data){
             io.sockets.emit("chatroom",{rooms:rooms});
         });

@@ -8,9 +8,19 @@ $(window).focus(function() {
     window_focus = false;
 });
 
-	var socketio = io.connect("mb-test.in:1555"); // connecting to node server using socket.io, and here we go live with the server broadcasts
+$('#unjoinroom').click(function(){
+	try{	
+		socketio.removeListener('chat'+roomId,newChat);
+	}
+	catch(exc){
+		throw exc;
+	}
+});
+
+	var socketio = io.connect("localhost:1555"); // connecting to node server using socket.io, and here we go live with the server broadcasts
 	var myId='';
 	var roomId='';
+	var myRoomId='';
 	if(localStorage.userId){
 		myId=localStorage.userId;
 		socketio.emit('getrooms',{});
@@ -23,7 +33,7 @@ $(window).focus(function() {
     });
 		socketio.on("msg"+myId,function(msgData){
 		if(msgData.type="roomCreate"){
-			roomId=msgData.id;
+			myRoomId=msgData.id;
 		}
 	});
 	}
@@ -40,7 +50,7 @@ $(window).focus(function() {
 		
 		socketio.on("msg"+myId,function(msgData){
 		if(msgData.type="roomCreate"){
-			roomId=msgData.id;
+			myRoomId=msgData.id;
 		}
 		});
 		}
@@ -48,25 +58,49 @@ $(window).focus(function() {
 	socketio.on("chatroom",function(data){
 		$('#chatroomlist').html('');
 		data.rooms.forEach(function(item){
-			var elem=$('<div class="btn btn-warning" style="float:left;margin:5px;">');
-			    elem.html(item.name);
+			var container=$('<div class="col-sm-3">');
+			var panel=$('<div class="panel panel-primary">');
+				container.append(panel);
+				var panelhead=$('<div class="panel-heading">');
+					panel.append(panelhead);
+					var panelTitle=$('<h3 class="panel-title">');
+						panelTitle.attr('roomid',item.id);
+						panelTitle.html(item.name);
+						panelhead.append(panelTitle);
+			var parent=$('<div class="panel-body text-center">');
+				
+			var elem=$('<div class="btn btn-success">');
+			var closeBtn=$('<i class="text-muted glyphicon glyphicon-remove pull-right" style="padding:3px;">');
+			    closeBtn.click(function(){
+			    	socketio.emit("deleteRoom",{roomId:$(this).parent().attr('roomid')});
+			    });
+			    elem.html('Join');
+			    
 			    elem.attr('id',item.id);
 			    elem.click(function(){
+			    	try{	
+			    		socketio.removeListener('chat'+roomId,newChat);
+			    	}
+			    	catch(exc){
+			    		throw exc;
+			    	}
+
 			    	roomId=$(this).attr('id');
 			    	$('#chatwindow').html('');
 			    	$('#roomname').html($(this).html());
-			    	socketio.on('chat'+item.id,function(chatData){
-			    		if(myId!=chatData.userId&&!window_focus)
-			    			notifyMe(chatData);
-			    		var chatThread='<span class="chat-name">'+chatData.from+'</span>:<span class="text-muted">'+chatData.msg+'</span><br>';
-			    		$('#chatwindow').append(chatThread);
-			    	});
+			    	socketio.on('chat'+item.id,newChat);
 			    	window.location.hash='chatRoom';
 			    });
-			    $('#chatroomlist').append(elem);
+
+			    parent.append(elem);
+			    if(item.owner==myId)
+			    	panelTitle.append(closeBtn);
+			    panel.append(parent);
+			    $('#chatroomlist').append(container);
 		});
 	});
 	
+
 
 
 // join chat app
@@ -98,12 +132,14 @@ $("#createRoom").click(function(e){
 
 		if($(this).hasClass('btn-success')){
 			socketio.emit("createRoom",{name:$('#newRoomname').val(),userId:myId});
+			$('#newRoomname').val('');
 		}
 		
 	});
 
 	$('#newRoomname').keyup(function(e){
-		if($(this).val().length>3){
+		if($(this).val().length>3&&$(this).val().length<15){
+
 			$('#createRoom').removeClass('btn-default');
 			$('#createRoom').addClass('btn-success');
 		}
@@ -193,6 +229,13 @@ function notifyMe(chatData) {
   }
 }
 
+
+function newChat (chatData){
+	  if(myId!=chatData.userId&&!window_focus)
+	  	notifyMe(chatData);
+	  var chatThread='<span class="chat-name">'+chatData.from+'</span>:<span class="text-muted">'+chatData.msg+'</span><br>';
+	  $('#chatwindow').append(chatThread);
+  };
 
 
 
